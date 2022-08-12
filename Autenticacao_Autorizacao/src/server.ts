@@ -1,9 +1,16 @@
 import express from "express"
 import { createConnection } from "./data-source"
+import routes from "./routes/"
 
 createConnection('localhost')
 const app = express()
 
 app.use(express.json())
 
-app.listen(3333, () => console.log("Servidor rodando!"))
+app.get('/', (req, res)=>{
+    res.status(200).json({mensagem:'Pong!'})
+})
+
+app.use(routes)
+
+app.listen(3000, () => console.log("Servidor rodando!"))
