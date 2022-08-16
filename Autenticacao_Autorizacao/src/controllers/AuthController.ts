@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { Request, Response } from "express";
 import { UserRepository } from "../repositories/UserRepository";
 
@@ -20,7 +21,9 @@ export class AuthController {
             return res.status(400).json({mensagem: 'Usuário já existe!'})
         }
 
-        const result = await this.userRepository.create({name, email, password})
+        const hashPassword = await bcrypt.hash(password, 8)
+
+        const result = await this.userRepository.create({name, email, password: hashPassword})
 
         return res.json(result)
     }
@@ -31,11 +34,13 @@ export class AuthController {
         const user = await this.userRepository.findByEmail(email)
 
         if(!user) {
-            return res.status(400).json({mensagem: 'Usuário não existe!'})
+            return res.status(400).json({mensagem: 'Email ou senha inválidos!'})
         }
 
-        if(user.email !== email || user.password !== password) {
-            return res.status(400).json({mensagem: 'Email ou senha incorreto!'})
+        const verifyPassword = await bcrypt.compare(password, user.password)
+
+        if(!verifyPassword) {
+            return res.status(400).json({mensagem: 'Email ou senha inválidos!'})
         }
 
         return res.json(user)
