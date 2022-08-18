@@ -1,11 +1,17 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from "express";
+import jwt from 'jsonwebtoken';
 import { UserRepository } from "../repositories/UserRepository";
 
 export interface User {
+    id?: string,
     email: string
     password: string
     name: string
+}
+
+type JwtPayload = {
+    email: string
 }
 
 export class AuthController {
@@ -43,7 +49,34 @@ export class AuthController {
             return res.status(400).json({mensagem: 'Email ou senha inválidos!'})
         }
 
+        const token = jwt.sign({id: user.id, email: user.email}, process.env.JWT_PASSWORD, {
+            expiresIn: '1h'
+        })
+
+
+        return res.json({user, token})
+    }
+
+    me = async (req: Request, res: Response) => {
+        const {authorization} = req.headers
+
+        if(!authorization) {
+            return res.status(401).json({mensagem: 'Acesso negado!'})
+        }
+        
+        const token = authorization.split(' ')[1]
+        
+        const {email} = jwt.verify(token, process.env.JWT_PASSWORD) as JwtPayload
+        
+        const user = await this.userRepository.findByEmail(email)
+
+        if(!user) {
+            return res.status(500).json({mensagem: 'Acesso negado!'})
+        }
+        
         return res.json(user)
+
+
     }
 
 }
