@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn } from "typeorm"
 import { v4 as uuidV4 } from "uuid"
+import { PostEntity } from "./Post.Entity"
 
 @Entity('users')
 export class UserEntity {
@@ -14,6 +15,9 @@ export class UserEntity {
 
     @Column()
     password: string
+
+    @OneToMany(() => PostEntity, (post) => post.user)
+    posts: PostEntity
     
     @CreateDateColumn()
     created_at: string

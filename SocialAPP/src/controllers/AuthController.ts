@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { UserRepository } from "../repositories/UserRepository";
 
 export interface User {
-    id?: string,
+    id?: string
     email: string
     password: string
     name: string

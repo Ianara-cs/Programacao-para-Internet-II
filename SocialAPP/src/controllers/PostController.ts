@@ -20,7 +20,7 @@ export class PostController {
     listPosts = async (req: Request, res: Response) => {
         const {id} = req.body
         const posts = await this.postRepository.list(id)
-        res.status(201).json(posts)
+        res.status(200).json(posts)
     }
 
     removePost = async (req: Request, res: Response) => {
