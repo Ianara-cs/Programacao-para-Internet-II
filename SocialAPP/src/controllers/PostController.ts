@@ -19,7 +19,7 @@ export class PostController {
 
     listPosts = async (req: Request, res: Response) => {
         const {id} = req.body
-        const posts = await this.postRepository.list(id)
+        const posts = await this.postRepository.findAll(id)
         res.status(200).json(posts)
     }
 

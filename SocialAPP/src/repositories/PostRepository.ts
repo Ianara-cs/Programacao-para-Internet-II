@@ -18,8 +18,8 @@ export class PostRespository {
         return newPost
     }
 
-    async list(id: string): Promise<Post[]> {
-        const posts = await this.repository.find({where: {id}})
+    async findAll(id: string): Promise<Post[]> {
+        const posts = await this.repository.find({relations: {user: true}})
         return posts 
     }
 
