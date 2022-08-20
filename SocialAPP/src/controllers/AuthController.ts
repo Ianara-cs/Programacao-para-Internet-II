@@ -21,12 +21,6 @@ export class AuthController {
     signUp = async (req: Request, res: Response) => {
         const {name, email, password} = req.body
 
-        const user = await this.userRepository.findByEmail(email)
-
-        if(user) {
-            return res.status(400).json({mensagem: 'Usuário já existe!'})
-        }
-
         const hashPassword = await bcrypt.hash(password, 8)
 
         const result = await this.userRepository.create({name, email, password: hashPassword})
