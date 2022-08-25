@@ -51,6 +51,24 @@ export class AuthController {
         return res.json({user, token})
     }
 
+    mudarSenha = async (req: Request, res: Response) => {
+        const {newpassword} = req.body
+        const {id} = req.user
+
+        if(newpassword.length <= 4) {
+            return res.status(400).json({mensagem: "A senha deve ter o tamanho maior que 3"})
+        }
+
+        const user = await this.userRepository.findById(id)
+
+        const hashPassword = await bcrypt.hash(newpassword, 8)
+
+        user.password = hashPassword
+
+        return res.status(201).send()
+
+    }
+
     me = async (req: Request, res: Response) => {
         const {authorization} = req.headers
 

@@ -9,6 +9,7 @@ const authController = new AuthController()
 routes.post('/signup', existEmail, authController.signUp)
 
 routes.post('/signin', authController.signIn)
+routes.post('/mudarsenha', authController.signIn)
 
 routes.get('/me', authController.me)
 
