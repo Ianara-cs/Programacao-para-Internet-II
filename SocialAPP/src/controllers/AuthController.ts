@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
+import { RefleshTokenRepository } from '../repositories/RefleshTokenRepository';
 import { UserRepository } from "../repositories/UserRepository";
 
 export interface User {
@@ -43,12 +44,13 @@ export class AuthController {
             return res.status(400).json({mensagem: 'Email ou senha inválidos!'})
         }
 
-        const token = jwt.sign({id: user.id, email: user.email}, process.env.JWT_PASSWORD, {
-            expiresIn: '1h'
-        })
+        const genereteRefleshToken = new RefleshTokenRepository()
+        const token = await genereteRefleshToken.generateToken(user.id)
+        await genereteRefleshToken.delete(user.id)
+        const refleshToken = await genereteRefleshToken.generateRefleshToken(user.id)
+        
 
-
-        return res.json({user, token})
+        return res.json({user, refleshToken, token})
     }
 
     mudarSenha = async (req: Request, res: Response) => {
@@ -87,8 +89,6 @@ export class AuthController {
         }
         
         return res.json(user)
-
-
     }
 
 }

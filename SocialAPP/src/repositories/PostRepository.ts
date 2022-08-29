@@ -13,13 +13,15 @@ export class PostRespository {
     async create(post: Post): Promise<Post> {
         const newPost = this.repository.create(post)
  
-        await this.repository.save(post)
- 
-        return newPost
+        await this.repository.save(newPost)
+
+        return newPost  
     }
 
     async findAll(id: string): Promise<Post[]> {
-        const posts = await this.repository.find({relations: {user: true}})
+        const posts = await this.repository.find({relations: {
+            user: true
+        }, where: {id }})
         return posts 
     }
 

@@ -16,6 +16,9 @@ export class UserEntity {
     @Column()
     password: string
 
+    @Column({nullable: true})
+    refleshToken?: string
+
     @OneToMany(() => PostEntity, (post) => post.user)
     posts: PostEntity
     

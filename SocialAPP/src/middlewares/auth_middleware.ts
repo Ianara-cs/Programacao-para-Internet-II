@@ -34,6 +34,10 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
         if(!verifyPassword) {
             return res.status(400).json({mensagem: 'Acesso negado'})
         }
+
+        req.user = {
+            id: user.id
+        }
         
     }
 
@@ -44,6 +48,10 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     
         if(!user) {
             return res.status(401).json({mensagem: 'Acesso negado!'})
+        }
+
+        req.user = {
+            id: user.id
         }
     }
     

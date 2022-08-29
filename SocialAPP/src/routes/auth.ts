@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { AuthController } from '../controllers/AuthController'
+import { authMiddleware } from '../middlewares/auth_middleware'
 import { existEmail } from '../middlewares/existUser_middleware'
 
 const routes = Router()
@@ -9,7 +10,8 @@ const authController = new AuthController()
 routes.post('/signup', existEmail, authController.signUp)
 
 routes.post('/signin', authController.signIn)
-routes.post('/mudarsenha', authController.signIn)
+
+routes.post('/mudarsenha', authMiddleware ,authController.mudarSenha)
 
 routes.get('/me', authController.me)
 
