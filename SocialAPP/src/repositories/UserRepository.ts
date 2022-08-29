@@ -1,5 +1,5 @@
 import { User } from "../controllers/AuthController";
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from "../database/data-source";
 import { UserEntity } from "../entities/User.Entity";
 
 export class UserRepository {

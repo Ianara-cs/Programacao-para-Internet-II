@@ -1,6 +1,6 @@
 import { DeleteResult } from "typeorm"
 import { Post } from "../controllers/PostController"
-import { AppDataSource } from "../data-source"
+import { AppDataSource } from "../database/data-source"
 import { PostEntity } from "../entities/Post.Entity"
 
 export class PostRespository {

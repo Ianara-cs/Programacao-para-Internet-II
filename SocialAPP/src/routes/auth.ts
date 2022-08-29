@@ -11,7 +11,7 @@ routes.post('/signup', existEmail, authController.signUp)
 
 routes.post('/signin', authController.signIn)
 
-routes.post('/mudarsenha', authMiddleware ,authController.mudarSenha)
+routes.post('/changepassword', authMiddleware ,authController.mudarSenha)
 
 routes.get('/me', authController.me)
 

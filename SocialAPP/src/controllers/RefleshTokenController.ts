@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { Request, Response } from "express";
-import { RefleshTokenRepository } from "../repositories/RefleshTokenRepository";
+import { RefleshTokenRepository } from "../repositories/TokenRepository";
 
 export class RefleshTokenController {
     constructor(private refleshTokenRepository = new RefleshTokenRepository()) {}

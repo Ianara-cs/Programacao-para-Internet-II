@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import jwt from 'jsonwebtoken';
-import { AppDataSource } from "../data-source";
+import { AppDataSource } from "../database/data-source";
 import { RefleshToken } from "../entities/RefleshToken";
 
 export class RefleshTokenRepository {
@@ -11,7 +11,7 @@ export class RefleshTokenRepository {
     }
 
     generateRefleshToken = async (userId: string) => {
-        const expiresIn = dayjs().add(30, "second").unix()
+        const expiresIn = dayjs().add(30, "days").unix()
 
         const refleshToken = this.repository.create({
             userId, expiresIn

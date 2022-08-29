@@ -1,5 +1,5 @@
 import express from "express"
-import { createConnection } from "./data-source"
+import { createConnection } from "./database/data-source"
 import routes from "./routes/"
 
 createConnection('localhost')

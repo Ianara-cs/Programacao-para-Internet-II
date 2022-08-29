@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
-import { RefleshTokenRepository } from '../repositories/RefleshTokenRepository';
+import { RefleshTokenRepository } from '../repositories/TokenRepository';
 import { UserRepository } from "../repositories/UserRepository";
 
 export interface User {
