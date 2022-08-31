@@ -1,16 +1,16 @@
 import dayjs from "dayjs";
 import jwt from 'jsonwebtoken';
 import { AppDataSource } from "../database/data-source";
-import { RefleshToken } from "../entities/RefleshToken";
+import { RefreshToken } from "../entities/RefreshToken";
 
-export class RefleshTokenRepository {
-    private repository = AppDataSource.getRepository(RefleshToken)
+export class TokenRepository {
+    private repository = AppDataSource.getRepository(RefreshToken)
 
     constructor() {
         this.repository 
     }
 
-    generateRefleshToken = async (userId: string) => {
+    generateRefreshToken = async (userId: string) => {
         const expiresIn = dayjs().add(30, "days").unix()
 
         const refleshToken = this.repository.create({
@@ -38,7 +38,7 @@ export class RefleshTokenRepository {
         return refleshToken
     }
 
-    delete = async (userId: string) => {
+    deleteRefreshToken = async (userId: string) => {
         await this.repository.delete({userId})
     }
 }

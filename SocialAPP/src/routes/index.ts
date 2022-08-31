@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import authRoutes from './auth'
 import { postRoutes } from './posts_routes'
-import { refleshTokenRoutes } from './refleshToken_routes'
+import { refleshTokenRoutes } from './refreshToken_routes'
 
 const router = Router()
 

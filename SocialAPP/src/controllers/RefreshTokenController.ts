@@ -1,17 +1,15 @@
 import dayjs from "dayjs";
 import { Request, Response } from "express";
-import { RefleshTokenRepository } from "../repositories/TokenRepository";
+import { TokenRepository } from "../repositories/TokenRepository";
 
-export class RefleshTokenController {
-    constructor(private refleshTokenRepository = new RefleshTokenRepository()) {}
+export class RefreshTokenController {
+    constructor(private refleshTokenRepository = new TokenRepository()) {}
 
-    generateTokenByreflashtoken = async (req: Request, res: Response) => {
+    generateTokenByRefreshToken = async (req: Request, res: Response) => {
         const {reflesh_token} = req.body
 
         const refleshToken = await this.refleshTokenRepository.findById(reflesh_token)
         
-        console.log(refleshToken)
-        console.log(reflesh_token)
         if(!refleshToken) {
             return res.status(404).json({mensagem: "Reflesh Token inválido"})
         }
@@ -20,11 +18,11 @@ export class RefleshTokenController {
         const token = await this.refleshTokenRepository.generateToken(refleshToken.userId)
 
         if(refleshTokenExpired) {
-            await this.refleshTokenRepository.delete(refleshToken.userId)
+            await this.refleshTokenRepository.deleteRefreshToken(refleshToken.userId)
 
-            const newResleshToken = await this.refleshTokenRepository.generateRefleshToken(refleshToken.userId)
+            const newRefleshToken = await this.refleshTokenRepository.generateRefreshToken(refleshToken.userId)
 
-            return res.json({token, refleshToken: newResleshToken})
+            return res.json({token, refleshToken: newRefleshToken})
         }
 
         return res.status(200).json({token: token})
