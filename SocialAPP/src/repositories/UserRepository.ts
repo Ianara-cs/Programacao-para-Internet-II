@@ -32,4 +32,9 @@ export class UserRepository {
 
         return user
     }
+
+    async update(id:string, newpassword: string) {
+        const user = await this.repository.update(id, {password: newpassword})
+        return user
+    }
 }

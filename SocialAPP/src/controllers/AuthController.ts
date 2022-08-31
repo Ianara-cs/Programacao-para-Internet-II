@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import { RefleshTokenRepository } from '../repositories/TokenRepository';
 import { UserRepository } from "../repositories/UserRepository";
+import { validarPassword } from '../utils/validarPassword';
 
 export interface User {
     id?: string
@@ -57,17 +58,21 @@ export class AuthController {
         const {newpassword} = req.body
         const {id} = req.user
 
-        if(newpassword.length <= 4) {
-            return res.status(400).json({mensagem: "A senha deve ter o tamanho maior que 3"})
+        const verificarSenha = await validarPassword(newpassword)
+
+        if(verificarSenha === false) {
+            return res.status(400).json({
+                mensagem: "A senha deve ter pelo menos 4 caracteres, um número, uma caractere especial e uma letra maiúscula"
+            })
         }
 
         const user = await this.userRepository.findById(id)
 
         const hashPassword = await bcrypt.hash(newpassword, 8)
 
-        user.password = hashPassword
+        await this.userRepository.update(user.id, hashPassword)
 
-        return res.status(201).send()
+        return res.status(200).send()
 
     }
 
