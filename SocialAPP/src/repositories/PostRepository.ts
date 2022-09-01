@@ -10,7 +10,7 @@ export class PostRespository {
         this.repository 
     }
 
-    async create(post: Post): Promise<Post> {
+    async create(post :Post): Promise<Post> {
         const newPost = this.repository.create(post)
  
         await this.repository.save(newPost)
@@ -18,10 +18,10 @@ export class PostRespository {
         return newPost  
     }
 
-    async findAll(id: string): Promise<Post[]> {
+    async findAll(userId: string): Promise<Post[]> {
         const posts = await this.repository.find({relations: {
-            user: true
-        }, where: {id }})
+            user: true, 
+        }, where: {user: {id: userId}}})
         return posts 
     }
 

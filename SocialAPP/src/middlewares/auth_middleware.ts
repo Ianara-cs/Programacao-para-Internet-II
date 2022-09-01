@@ -21,7 +21,6 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     if (authType === 'Basic'){
         let buff = Buffer.from(authValue, 'base64');
         let [email, senha] = buff.toString('ascii').split(':');
-        console.log(email, senha)
 
         const user = await userRepository.findByEmail(email)
 

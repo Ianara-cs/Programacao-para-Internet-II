@@ -1,29 +1,36 @@
 import { Request, Response } from "express";
 import { PostRespository } from "../repositories/PostRepository";
+import { UserRepository } from "../repositories/UserRepository";
+import { User } from "./AuthController";
 
 export interface Post {
     id?: string
     post: string
-    user_id?: string
+    user: User
 }
 
 export class PostController {
-    constructor(private postRepository = new PostRespository()) {}
+    private userRepository = new UserRepository()
+
+    constructor(
+        private postRepository = new PostRespository(),
+    ) {}
 
     createPost = async (req: Request, res: Response) => {
         const {id} = req.user
         const {post} = req.body
+
+        const user = await this.userRepository.findById(id)
+        console.log(user.id)
         
-        const newPost = await this.postRepository.create({post, user_id: id})
+        const newPost = await this.postRepository.create({post, user})
 
         res.status(201).json(newPost)
     }
 
     listPosts = async (req: Request, res: Response) => {
-        const {id} = req.body
-        const {user} = req
+        const {id} = req.user
         const posts = await this.postRepository.findAll(id)
-        console.log(user)
         res.status(200).json(posts)
     }
 
