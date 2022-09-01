@@ -25,8 +25,17 @@ export class UserRepository {
         return user
     }
 
-    /*async update(id:string, newpassword: string) {
-        const user = await this.repository.update(id, {password: newpassword})
+    async findByUsername(login: string): Promise<CreateUserDTO| undefined> {
+        const user = await this.repository.findOne({where: {
+            login
+        }})
+
         return user
-    }*/
+    }
+
+    async updateRefreshToken (user_id: string, refresh_token: string) {
+        const user = await this.repository.update(user_id, {refresh_token})
+        return user
+    }
+
 }

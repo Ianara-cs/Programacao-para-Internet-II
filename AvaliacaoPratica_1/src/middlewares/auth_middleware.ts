@@ -32,8 +32,6 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
         
         next()
     } catch (error) {
-        return res.status(400).json({mensagem: 'Erro'})
+        return res.status(400).json({mensagem: 'Token Inválido'})
     }
-    
-    next()
 }
