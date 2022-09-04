@@ -17,6 +17,11 @@ export class UserRepository {
         return newUser
     }
 
+    async activateUser (userId: string) {
+        await this.repository.update(userId, {conta_ativa: true})
+        return true
+    }
+
     async findById(id: string): Promise<CreateUserDTO| undefined> {
         const user = await this.repository.findOne({where: {
             id
@@ -28,6 +33,14 @@ export class UserRepository {
     async findByUsername(login: string): Promise<CreateUserDTO| undefined> {
         const user = await this.repository.findOne({where: {
             login
+        }})
+
+        return user
+    }
+
+    async findByEmail(email: string): Promise<CreateUserDTO| undefined> {
+        const user = await this.repository.findOne({where: {
+            email
         }})
 
         return user

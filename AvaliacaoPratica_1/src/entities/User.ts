@@ -7,6 +7,9 @@ export class User {
 
     @Column()
     name: string
+
+    @Column()
+    email: string
     
     @Column()
     login: string
@@ -17,11 +20,17 @@ export class User {
     @Column()
     password: string
 
-    @Column({default: true})
+    @Column({default: false})
     conta_ativa: boolean
 
     @Column({nullable: true})
     refresh_token: string
+
+    @Column()
+    codigo_de_validacao: number
+
+    @Column()
+    expires_in: number
 
     @CreateDateColumn()
     created_at: string
