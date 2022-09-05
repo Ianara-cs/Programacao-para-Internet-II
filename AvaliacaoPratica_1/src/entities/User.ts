@@ -10,11 +10,8 @@ export class User {
 
     @Column()
     email: string
-    
-    @Column()
-    login: string
 
-    @Column()
+    @Column({nullable: true})
     telefone: string
 
     @Column()

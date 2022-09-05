@@ -8,20 +8,17 @@ export const generateRefreshToken = async (userId: string) => {
     return token
 }
 
-export const generateAccessToken = async (userId: string) => {
-    const token = jwt.sign({id: userId}, process.env.JWT_PASSWORD, {
-        expiresIn: '1h'
-    })
+export const generateToken = async (payload: object, expiresIn: string | number) => {
+    return jwt.sign(payload, process.env.JWT_PASSWORD, {expiresIn})
 
-    return token
 }
 
 export const verifyToken = async (token: string) => {
     try {
-        jwt.verify(token, process.env.JWT_PASSWORD)
-        return true
+        const decoded = jwt.verify(token, process.env.JWT_PASSWORD)
+        return { payload: decoded, expired: false}
         
     } catch {
-        return false
+        return {paylaod: null, expired: true}
     }
 }
