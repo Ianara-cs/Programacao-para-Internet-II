@@ -4,6 +4,7 @@ import { CodigoValidacaoTelefone } from "../entities/CodigoValidacaoTelefone";
 import { User } from "../entities/User";
 
 interface IResponse {
+    id?: string
     name: string
     email: string
     conta_ativa: boolean
@@ -21,7 +22,7 @@ export class UserRepository {
         this.codigoTelefone
     }
 
-    async create(user: CreateUserDTO): Promise<CreateUserDTO> {
+    async create(user: CreateUserDTO): Promise<IResponse> {
        const newUser =  this.userRepository.create(user)
 
         await this.userRepository.save(newUser)

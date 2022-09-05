@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
 import { Request, Response } from "express"
-import { generateToken } from '../../Tokens/Token'
 import { CodigoValidacaoTelefone } from '../entities/CodigoValidacaoTelefone'
 import { UserRepository } from "../repositories/UserRepository"
+import { generateToken, verifyToken } from '../Tokens/Token'
 import { sendEmail } from '../utils/emails/sendEmail'
 import { generateCodeNumber } from '../utils/util'
 
@@ -68,7 +68,7 @@ export class AuthController {
 
         const user = await this.userRepository.findById(id)
         if(user.conta_ativa === false) {
-            return res.status(400).json({mensagem: "Conta inativa!"})
+            return res.status(400).json({mensagem: "Conta desativada!"})
         }
 
         const code =  generateCodeNumber()
@@ -118,6 +118,32 @@ export class AuthController {
         return res.json({user, token: accessToken, refreshToken})
     }
     
+    refreshToken = async (req: Request, res: Response) => {
+        const {refreshtoken} = req.body
+
+        const expired = await verifyToken(refreshtoken)
+        const user = await this.userRepository.findById(expired.payload.user_id)
+
+        if(!user) {
+            return res.status(400).json({mensagem: 'Token inválido'})
+        }
+        
+        if(user.conta_ativa === false) {
+            return res.status(400).json({mensagem: 'Conta desativada'})
+        }
+        console.log(expired)
+
+        if(expired.expired === true) {
+            const refreshToken = await generateToken({payload: expired.paylaod}, '30d')
+            await this.userRepository.updateRefreshToken(user.id, refreshToken)
+            const accessToken = await generateToken({user_id: user.id, user_email: user.email}, '1h')
+            return res.json({accessToken, refreshtoken})
+        }
+        
+        const accessToken = await generateToken({user_id: user.id, user_email: user.email}, '1h')
+
+        return res.json({accessToken})
+    }
     
 
     
