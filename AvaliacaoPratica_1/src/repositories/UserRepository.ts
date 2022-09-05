@@ -64,8 +64,7 @@ export class UserRepository {
     }
 
     async findByTelefoneCode (telefone: string, code: number) {
-        const result = await this.codigoTelefone.findOne({where: {telefone}})
-        return result
+        return await this.codigoTelefone.findOne({where: {telefone, codigo_de_validacao: code}})
     }
 
     async addTelefoneCode (telefone: string, code: number) {

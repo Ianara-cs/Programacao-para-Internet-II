@@ -9,9 +9,9 @@ const authController = new AuthController()
 authRoutes.post('/signup', authController.signUp)
 authRoutes.post('/signin', authController.signIn)
 authRoutes.post('/refreshtoken', authController.refreshToken)
-authRoutes.post('/activateuser', authController.activateUser)
+authRoutes.patch('/activateuser', authController.activateUser)
 authRoutes.post('/enviarcodigo', authMiddleware, authController.enviarCodeTelefone)
-authRoutes.post('/addtelefone', authMiddleware, authController.addTelefone)
+authRoutes.patch('/addtelefone', authMiddleware, authController.addTelefone)
 
 export { authRoutes };
 

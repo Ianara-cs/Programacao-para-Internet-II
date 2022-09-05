@@ -29,7 +29,7 @@ export class AuthController {
 
         console.log(`Código de validação ${codeNumber}`)
 
-        return res.json(newUser)
+        return res.status(201).json(newUser)
     }
 
     
@@ -83,13 +83,14 @@ export class AuthController {
         const {id} = req.user
 
        const result = await this.userRepository.findByTelefoneCode(telefone, code)
+       const user = await this.userRepository.findById(id)
 
        if(!result) {
         return res.status(400).json({mensagem: "Código inválido"})
        }
        
        if(sms == 'ok' ) {
-           await this.userRepository.upadateTelefone(id, telefone)
+           await this.userRepository.upadateTelefone(user.id, telefone)
            return res.json({mensagem: 'Telefone adicionado com sucesso'})
         }
         
