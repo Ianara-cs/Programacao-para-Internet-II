@@ -23,12 +23,6 @@ export class User {
     @Column({nullable: true})
     refresh_token: string
 
-    @Column()
-    codigo_de_validacao: number
-
-    @Column()
-    expires_in: number
-
     @CreateDateColumn()
     created_at: string
 }

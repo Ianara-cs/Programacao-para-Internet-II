@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
 import { Request, Response } from "express"
+import { CodigoValidacaoEmail } from '../entities/CodigoValidacaoEmail'
 import { CodigoValidacaoTelefone } from '../entities/CodigoValidacaoTelefone'
 import { UserRepository } from "../repositories/UserRepository"
 import { generateToken, verifyToken } from '../Tokens/Token'
@@ -11,23 +12,21 @@ export class AuthController {
 
     constructor(
         private userRepository= new UserRepository(),
-        private codigoTelefone = new CodigoValidacaoTelefone()
+        private codigoTelefone = new CodigoValidacaoTelefone(),
+        private codigoEmail = new CodigoValidacaoEmail()
     ){}
 
     signUp = async (req: Request, res: Response) => {
         const {name, email, password} = req.body
 
-        const codeNumber = generateCodeNumber()
-        const expires_in = dayjs().add(2, "hours").unix()
-        await sendEmail(email, codeNumber)
+        const codigo = await this.userRepository.createCodigoEmail(email, 2)
+        await sendEmail(email, codigo.codigo_de_validacao)
         
         const hashPassword = await bcrypt.hash(password, 8)
         
-        const newUser = await this.userRepository.create({
-            name, password: hashPassword, email, codigo_de_validacao: codeNumber, expires_in
-        })
+        const newUser = await this.userRepository.create({name, password: hashPassword, email})
 
-        console.log(`Código de validação ${codeNumber}`)
+        console.log(`Código de validação ${codigo.codigo_de_validacao}`)
 
         return res.status(201).json(newUser)
     }
@@ -41,20 +40,35 @@ export class AuthController {
         if(!user) {
             return res.status(400).json({mensagem: 'Email inválido!'})
         }
-
-        const codeExpired = dayjs().isAfter(dayjs.unix(user.expires_in))
+        
+        const codeEmail = await this.userRepository.findByCodeEmail(email, code)
+        
+        if(!codeEmail) {
+            return res.status(400).json({mensagem: 'Código inválido!'})
+        }
+        
+        const codeExpired = dayjs().isAfter(dayjs.unix(codeEmail.expires_in))
         
         if(codeExpired) {
             return res.status(400).json({mensagem: 'Código expirado!'})
         }
 
-        if(user.codigo_de_validacao != code) {
-            return res.status(400).json({mensagem: 'Código inválido!'})
-        }
         
         await this.userRepository.activateUser(user.id)
         return res.json({mensagem: "Conta ativada com sucesso!"})
 
+    }
+
+    reenviarCodigoEmail = async (req: Request, res: Response) => {
+        const {email} = req.body
+
+        await this.userRepository.deleteCodeEmail(email)
+
+        const codigo = await this.userRepository.createCodigoEmail(email, 2)
+        await sendEmail(email, codigo.codigo_de_validacao)
+
+        console.log(`Código de validação ${codigo.codigo_de_validacao}`)
+        return res.status(200).send("Código enviado")
     }
 
     enviarCodeTelefone = async (req: Request, res: Response) => {
@@ -132,7 +146,6 @@ export class AuthController {
         if(user.conta_ativa === false) {
             return res.status(400).json({mensagem: 'Conta desativada'})
         }
-        console.log(expired)
 
         if(expired.expired === true) {
             const refreshToken = await generateToken({payload: expired.paylaod}, '30d')

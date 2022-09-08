@@ -10,6 +10,7 @@ authRoutes.post('/signup', authController.signUp)
 authRoutes.post('/signin', authController.signIn)
 authRoutes.post('/refreshtoken', authController.refreshToken)
 authRoutes.patch('/activateuser', authController.activateUser)
+authRoutes.post('/reenviaremail', authController.reenviarCodigoEmail)
 authRoutes.post('/enviarcodigo', authMiddleware, authController.enviarCodeTelefone)
 authRoutes.patch('/addtelefone', authMiddleware, authController.addTelefone)
 
