@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
-import { UserRepository } from "../repositories/UserRepository";
+import { UsersRepository } from "../modules/auth/repositories/implementations/UsersRepository";
 
 type JwtPayload = {
     id: string
@@ -19,7 +19,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     try {
         const {id: user_id} = jwt.verify(authValue, process.env.JWT_PASSWORD) as JwtPayload
 
-        const userRepository = new UserRepository()
+        const userRepository = new UsersRepository()
         const user = userRepository.findById(user_id)
 
         if(!user) {

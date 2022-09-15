@@ -1,18 +1,18 @@
 import { Router } from "express";
-import { AuthController } from "../controllers/AuthController";
 import { authMiddleware } from "../middlewares/auth_middleware";
+import { UserController } from "../modules/auth/auth.controller";
 
 const authRoutes = Router()
 
-const authController = new AuthController()
+const userController = new UserController()
 
-authRoutes.post('/signup', authController.signUp)
-authRoutes.post('/signin', authController.signIn)
-authRoutes.post('/refreshtoken', authController.refreshToken)
-authRoutes.patch('/activateuser', authController.activateUser)
-authRoutes.post('/reenviaremail', authController.reenviarCodigoEmail)
-authRoutes.post('/enviarcodigo', authMiddleware, authController.enviarCodeTelefone)
-authRoutes.patch('/addtelefone', authMiddleware, authController.addTelefone)
+authRoutes.post('/signup', userController.singUp)
+authRoutes.patch('/activateuser', userController.activateAccount)
+authRoutes.post('/reenviaremail', userController.reenviarCodigoEmail)
+authRoutes.post('/signin', userController.signIn)
+authRoutes.post('/refreshtoken', userController.refreshToken)
+authRoutes.post('/enviarcodigo', authMiddleware, userController.sendPhoneCode)
+authRoutes.patch('/addtelefone', authMiddleware, userController.addTelefone)
 
 export { authRoutes };
 
