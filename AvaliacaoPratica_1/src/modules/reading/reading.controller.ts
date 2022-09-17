@@ -7,11 +7,10 @@ export class ReadingController {
     async addReading(req: Request, res: Response) {
         const {titulo, subtitulo, tags} = req.body
         const {id} = req.user
-        const userId = id
         
 
         const readingService = container.resolve(ReadingService)
-        const newReading = readingService.addReading({titulo, subtitulo, tags, userId})
+        const newReading = await readingService.addReading(id, {titulo, subtitulo, tags})
         return res.status(200).json({newReading})
     }
 }

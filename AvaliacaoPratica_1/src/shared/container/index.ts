@@ -7,6 +7,8 @@ import { IPhoneCodeRepository } from "../../modules/auth/repositories/IPhoneCode
 import { IUsersRepository } from "../../modules/auth/repositories/IUsersRepository";
 import { ReadingRepository } from "../../modules/reading/repositories/implementations/ReadingRepository";
 import { IReadingRepository } from "../../modules/reading/repositories/IReadingRepository";
+import { TagsRepository } from "../../modules/tags/repositories/implementations/TagsRepository";
+import { ITagsRepository } from "../../modules/tags/repositories/ITagsRepository";
 
 container.registerSingleton<IUsersRepository> (
     "UsersRepository",
@@ -26,5 +28,10 @@ container.registerSingleton<IPhoneCodeRepository> (
 container.registerSingleton<IReadingRepository> (
     "ReadingRepository",
     ReadingRepository
+)
+
+container.registerSingleton<ITagsRepository> (
+    "TagsRepository",
+    TagsRepository
 )
 

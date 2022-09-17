@@ -1,5 +1,6 @@
 import { Repository } from "typeorm";
 import { AppDataSource } from "../../../../database/data-source";
+import { User } from "../../../auth/entities/User";
 import { ICreateReadingDTO } from "../../dtos/createReadingDTO";
 import { Reading } from "../../entities/Reading";
 import { IReadingRepository } from "../IReadingRepository";
@@ -11,8 +12,13 @@ export class ReadingRepository implements IReadingRepository {
         this.readingRepsoitory = AppDataSource.getRepository(Reading)
     }
 
-    async createReading(data: ICreateReadingDTO): Promise<Reading> {
-        const newLeitura =  this.readingRepsoitory.create(data)
+    async createReading(user: User, {subtitulo, titulo, tags}: ICreateReadingDTO): Promise<Reading> {
+        const newLeitura =  this.readingRepsoitory.create({
+            subtitulo,
+            titulo,
+            tags,
+            user
+        })
 
         await this.readingRepsoitory.save(newLeitura)
 

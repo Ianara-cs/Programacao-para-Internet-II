@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { User } from "../../auth/entities/User"
+import { Tag } from "../../tags/entities/Tag"
 
 @Entity('leitura')
 export class Reading {
@@ -11,12 +12,16 @@ export class Reading {
     
     @Column()
     subtitulo: string
-    
-    @Column({nullable: true})
-    tags: string
 
     @ManyToOne(() => User, (user) => user.readings)
     user: User
+
+    @ManyToMany(() => Tag, (tag) => tag.readings)
+    @JoinTable()
+    tag: Tag[]
+
+    @Column({type: "json"})
+    tags: JSON
     
     @CreateDateColumn()
     created_at: string

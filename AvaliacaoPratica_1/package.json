@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "migration:generate": "typeorm-ts-node-esm -d ./src/database/data-source.ts migration:generate",
-    "migration:run": "typeorm-ts-node-esm -d ./src/database/data-source.ts migration:run"
+    "migration:run": "typeorm-ts-node-esm -d ./src/database/data-source.ts migration:run",
+    "migration:revet": "typeorm-ts-node-esm -d ./src/database/data-source.ts migration:revert"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
