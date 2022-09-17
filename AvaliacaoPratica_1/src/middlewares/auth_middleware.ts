@@ -27,7 +27,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
         }
 
         req.user = {
-            id: user_id
+            userId: user_id
         }
         
         next()

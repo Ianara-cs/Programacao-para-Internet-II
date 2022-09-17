@@ -4,7 +4,7 @@ import { Reading } from "../entities/Reading"
 
 export interface IReadingRepository {
     createReading(user: User ,data: ICreateReadingDTO): Promise<Reading>
-    //listAllReading(): Promise<Reading[]>
+    findAllReading(): Promise<Reading[]>
     findById(id: string): Promise<Reading>
-    removeReading(id: string): Promise<boolean>
+    removeReading(readingId: string): Promise<boolean>
 }

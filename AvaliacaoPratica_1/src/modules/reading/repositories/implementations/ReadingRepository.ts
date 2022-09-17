@@ -25,15 +25,24 @@ export class ReadingRepository implements IReadingRepository {
         return newLeitura
     }
 
-    //async listAllReading(): Promise<Reading[]> {}
+    async findAllReading(): Promise<Reading[]> {
+        const readings = await this.readingRepsoitory.find({relations: {
+            user: true
+        }})
+
+        return readings
+    }
     
     async findById(id: string): Promise<Reading> {
-        const livro = await this.readingRepsoitory.findOne({where: {id}})
+        const livro = await this.readingRepsoitory.findOne({
+            where: {id}, 
+            relations: {user: true}
+        })
         return livro
     }
 
-    async removeReading(id: string): Promise<boolean> {
-        const livro = await this.readingRepsoitory.delete(id)
+    async removeReading(readingId: string): Promise<boolean> {
+        await this.readingRepsoitory.delete({id: readingId})
         return true
     }
 

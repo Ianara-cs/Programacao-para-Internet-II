@@ -42,7 +42,7 @@ export class UserController {
 
     async sendPhoneCode(req: Request, res: Response) {
         const {telefone } = req.body
-        const {id} = req.user
+        const {userId: id} = req.user
 
         const userService = container.resolve(UserService)
         await userService.addTelefone(telefone, id)
@@ -51,7 +51,7 @@ export class UserController {
 
     async addTelefone(req: Request, res: Response) {
         const {code, telefone, sms} = req.body
-        const {id} = req.user
+        const {userId: id} = req.user
 
         const userService = container.resolve(UserService)
         await userService.confirmarTelefone(code, telefone, sms, id)

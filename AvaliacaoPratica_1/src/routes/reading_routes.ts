@@ -8,6 +8,8 @@ const readingController = new ReadingController()
 readingRoutes.use(authMiddleware)
 
 readingRoutes.post("/addleitura", readingController.addReading)
+readingRoutes.get("/", readingController.listAllReading)
+readingRoutes.delete("/:id/delete", readingController.removeReading)
 
 export { readingRoutes }
 
