@@ -1,7 +1,7 @@
-export interface CreateLeituraDTO {
+export interface ICreateReadingDTO {
     id?: string
     titulo: string
     subtitulo: string
-    user_id: string
+    userId: string
     tags?: string
 }

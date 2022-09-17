@@ -1,7 +1,8 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { User } from "../../auth/entities/User"
 
 @Entity('leitura')
-export class Leitura {
+export class Reading {
     @PrimaryGeneratedColumn("uuid")
     id?: string
 
@@ -10,13 +11,13 @@ export class Leitura {
     
     @Column()
     subtitulo: string
-
-    @Column()
-    user_id: string
-
+    
     @Column({nullable: true})
     tags: string
 
+    @ManyToOne(() => User, (user) => user.readings)
+    user: User
+    
     @CreateDateColumn()
     created_at: string
 }

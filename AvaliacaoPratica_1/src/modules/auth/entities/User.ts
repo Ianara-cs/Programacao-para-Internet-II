@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Reading } from "../../reading/entities/Reading"
 
 @Entity('users')
 export class User {
@@ -22,6 +23,9 @@ export class User {
 
     @Column({nullable: true})
     refresh_token: string
+
+    @OneToMany(() => Reading, (reading) => reading.user)
+    readings: Reading[]
 
     @CreateDateColumn()
     created_at: string
