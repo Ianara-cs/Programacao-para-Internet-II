@@ -9,7 +9,7 @@ body{
   font-family: 'Roboto';
 }
 
-.container{
+#container{
   background: white;
   width: 25rem;
   min-height: 70vh;
