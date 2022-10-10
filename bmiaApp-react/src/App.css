@@ -2,6 +2,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  list-style: none;
+  
 }
 
 body{
@@ -121,7 +123,7 @@ form #btn_calculate:hover{
   font-size: 2rem;
 
   /* visibility: hidden; */
-  display: none;
+  /*display: none; */
 }
 
 #result span{
@@ -136,4 +138,8 @@ footer{
   justify-content: center;
   align-items: center;
   font-size: 0.7rem;
+}
+
+.historico {
+  background: #f48fb1;
 }

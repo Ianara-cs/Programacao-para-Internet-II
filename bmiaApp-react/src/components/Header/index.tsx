@@ -1,7 +1,12 @@
-export function Header () {
+interface HeaderProps{
+    title?: string
+}
+
+export const Header = ({title = 'BMI Calculator'}: HeaderProps) => {
     return (
         <header>
-            <h1>BMI Calculator</h1>
+            <h1>{title}</h1>
         </header>
     )
+    
 }
