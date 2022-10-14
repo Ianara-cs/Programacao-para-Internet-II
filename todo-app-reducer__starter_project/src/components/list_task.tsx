@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { Task } from "../App"
 import { TaskItem } from "./item_task"
 
@@ -9,6 +10,7 @@ interface TaskListProps{
 
 
 export function TaskList({tasks, onChangeTask, onDeleteTask}: TaskListProps){
+    useEffect( () => {console.log(tasks)}, [tasks])
 
     return (
         <>
