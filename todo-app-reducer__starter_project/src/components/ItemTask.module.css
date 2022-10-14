@@ -1,0 +1,19 @@
+
+.buttonApagar {
+    background-color: red;  
+}
+
+.buttonApagar:hover{
+    border-color: aliceblue;
+}
+
+.buttonSalvar {
+    background-color: blue;  
+}
+
+.buttonEditar {
+    border-color: aliceblue;
+}
+
+
+

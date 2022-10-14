@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Task } from "../App"
+import style from "./ItemTask.module.css"
 
 interface TaskItemProps{
     task: Task
@@ -64,8 +65,8 @@ export function TaskItem({task, onChangeTask, onDeleteTask}: TaskItemProps){
                         (<span>{task.text}</span>)
             }
 
-            <button onClick={handleEditSaveClick}>{buttonLabel}</button>
-            <button onClick={() => onDeleteTask(task.id)} >Apagar</button>
+            <button className={isEditing? style.buttonSalvar: style.buttonEditar} onClick={handleEditSaveClick}>{buttonLabel}</button>
+            <button className={style.buttonApagar} onClick={() => onDeleteTask(task.id)} >Apagar</button>
         </li>
     )
 }

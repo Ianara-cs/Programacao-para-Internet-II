@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react"
+import style from "./AddTask.module.css"
 
 interface AddTaskProps{
     onAddTask: (text: string) => void
@@ -22,11 +23,13 @@ export function AddTask({onAddTask}: AddTaskProps){
         <>
             <form onSubmit={handlerSubmit}>
                 <input 
+                    className={style.inputAddTask}
                     type="text" 
                     value={taskText} 
                     onChange={handlerDescriptionChange}  
-                    placeholder="Descrição" />
-                <input type="submit" value="Adicionar Tarefa" />
+                    placeholder="Descrição" 
+                />
+                <input className={style.inputSubmit} type="submit" value="Adicionar Tarefa" />
             </form>
         </>
     )
