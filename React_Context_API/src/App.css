@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+.App {
+  height: 30rem;
+  width: 40rem;
+}
+.section {
+  border: .1rem solid black;
+  margin: 2rem;
+  padding: .5rem;
+}
+
+.Post {
+  border: .2rem yellow solid;
+  margin-bottom: .5rem;
+}
+
+
